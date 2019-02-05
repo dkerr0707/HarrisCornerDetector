@@ -16,9 +16,10 @@
 #include <opencv2/core/core.hpp>
 
 class OpenCV_Harris : public CornerDetector {
+    
 public:
     OpenCV_Harris() = delete;
-    OpenCV_Harris(cv::Mat src);
+    OpenCV_Harris(cv::Mat src) : CornerDetector(src) {};
     ~OpenCV_Harris() {};
     
     void Run() override;
@@ -29,4 +30,5 @@ private:
     const int m_thresh = 200;
     
     void cornerHarris_demo( int, void* );
+    
 };

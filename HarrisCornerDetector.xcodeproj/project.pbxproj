@@ -10,6 +10,8 @@
 		CB409C54220A073200C2423A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C53220A073200C2423A /* main.cpp */; };
 		CB409C5D220A2E5000C2423A /* OpenCV_Harris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */; };
 		CB409C63220A356E00C2423A /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C61220A356E00C2423A /* Application.cpp */; };
+		CB409C66220A53C500C2423A /* Harris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C64220A53C500C2423A /* Harris.cpp */; };
+		CB409C68220A560800C2423A /* CornerDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C67220A560800C2423A /* CornerDetector.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +34,9 @@
 		CB409C5F220A328900C2423A /* CornerDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CornerDetector.hpp; sourceTree = "<group>"; };
 		CB409C61220A356E00C2423A /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		CB409C62220A356E00C2423A /* Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
+		CB409C64220A53C500C2423A /* Harris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Harris.cpp; sourceTree = "<group>"; };
+		CB409C65220A53C500C2423A /* Harris.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Harris.hpp; sourceTree = "<group>"; };
+		CB409C67220A560800C2423A /* CornerDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CornerDetector.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,11 +70,14 @@
 			isa = PBXGroup;
 			children = (
 				CB409C53220A073200C2423A /* main.cpp */,
+				CB409C62220A356E00C2423A /* Application.hpp */,
+				CB409C61220A356E00C2423A /* Application.cpp */,
+				CB409C5F220A328900C2423A /* CornerDetector.hpp */,
+				CB409C67220A560800C2423A /* CornerDetector.cpp */,
 				CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */,
 				CB409C5C220A2E5000C2423A /* OpenCV_Harris.hpp */,
-				CB409C5F220A328900C2423A /* CornerDetector.hpp */,
-				CB409C61220A356E00C2423A /* Application.cpp */,
-				CB409C62220A356E00C2423A /* Application.hpp */,
+				CB409C64220A53C500C2423A /* Harris.cpp */,
+				CB409C65220A53C500C2423A /* Harris.hpp */,
 			);
 			path = HarrisCornerDetector;
 			sourceTree = "<group>";
@@ -131,7 +139,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB409C66220A53C500C2423A /* Harris.cpp in Sources */,
 				CB409C54220A073200C2423A /* main.cpp in Sources */,
+				CB409C68220A560800C2423A /* CornerDetector.cpp in Sources */,
 				CB409C5D220A2E5000C2423A /* OpenCV_Harris.cpp in Sources */,
 				CB409C63220A356E00C2423A /* Application.cpp in Sources */,
 			);

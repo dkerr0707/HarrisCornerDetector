@@ -18,8 +18,9 @@ Application::Application(int argc, char** argv) {
     
     m_src = LoadImage(path);
     
-    namedWindow( "Display window", cv::WINDOW_AUTOSIZE );
-    imshow( "Display window", m_src );
+    const std::string windowName = "Input Image";
+    namedWindow(windowName, cv::WINDOW_AUTOSIZE );
+    imshow(windowName, m_src );
     
 }
 
@@ -36,7 +37,7 @@ std::string Application::ValidateArgs(int argc, char** argv) {
     
     if( argc != 2)
     {
-        throw std::runtime_error("Invalid Arguments - HarrisCornerDetector IMAGE_PATH");
+        throw std::runtime_error("Usage - HarrisCornerDetector IMAGE_PATH");
     }
     
     return argv[1];

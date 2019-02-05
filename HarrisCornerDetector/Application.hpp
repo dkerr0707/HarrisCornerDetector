@@ -21,4 +21,5 @@ private:
     cv::Mat LoadImage(std::string path);
     
     cv::Mat m_src;
+    
 };

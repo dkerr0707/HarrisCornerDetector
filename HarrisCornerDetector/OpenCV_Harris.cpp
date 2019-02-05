@@ -7,14 +7,9 @@
 //
 
 #include "OpenCV_Harris.hpp"
+
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-
-OpenCV_Harris::OpenCV_Harris(cv::Mat src) : m_src(src) {
-
-    cv::cvtColor( m_src, m_src_gray, cv::COLOR_BGR2GRAY );
-    
-}
 
 void OpenCV_Harris::Run() {
     
@@ -22,6 +17,8 @@ void OpenCV_Harris::Run() {
     
 }
 
+// This function is copied from here :
+// https://docs.opencv.org/3.4/d4/d7d/tutorial_harris_detector.html
 void OpenCV_Harris::cornerHarris_demo( int, void* )
 {
     
@@ -29,8 +26,8 @@ void OpenCV_Harris::cornerHarris_demo( int, void* )
     int apertureSize = 3;
     double k = 0.04;
     
-    cv::Mat dst = cv::Mat::zeros( m_src.size(), CV_32FC1 );
-    cornerHarris( m_src_gray, dst, blockSize, apertureSize, k );
+    cv::Mat dst = cv::Mat::zeros( GetSource().size(), CV_32FC1 );
+    cornerHarris( GetGray(), dst, blockSize, apertureSize, k );
     
     cv::Mat dst_norm, dst_norm_scaled;
     cv::normalize( dst, dst_norm, 0, 255, cv::NORM_MINMAX, CV_32FC1, cv::Mat() );
