@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CB409C54220A073200C2423A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C53220A073200C2423A /* main.cpp */; };
+		CB409C5D220A2E5000C2423A /* OpenCV_Harris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */; };
+		CB409C63220A356E00C2423A /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C61220A356E00C2423A /* Application.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,11 @@
 /* Begin PBXFileReference section */
 		CB409C50220A073200C2423A /* HarrisCornerDetector */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HarrisCornerDetector; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB409C53220A073200C2423A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenCV_Harris.cpp; sourceTree = "<group>"; };
+		CB409C5C220A2E5000C2423A /* OpenCV_Harris.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenCV_Harris.hpp; sourceTree = "<group>"; };
+		CB409C5F220A328900C2423A /* CornerDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CornerDetector.hpp; sourceTree = "<group>"; };
+		CB409C61220A356E00C2423A /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		CB409C62220A356E00C2423A /* Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,11 @@
 			isa = PBXGroup;
 			children = (
 				CB409C53220A073200C2423A /* main.cpp */,
+				CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */,
+				CB409C5C220A2E5000C2423A /* OpenCV_Harris.hpp */,
+				CB409C5F220A328900C2423A /* CornerDetector.hpp */,
+				CB409C61220A356E00C2423A /* Application.cpp */,
+				CB409C62220A356E00C2423A /* Application.hpp */,
 			);
 			path = HarrisCornerDetector;
 			sourceTree = "<group>";
@@ -120,6 +132,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB409C54220A073200C2423A /* main.cpp in Sources */,
+				CB409C5D220A2E5000C2423A /* OpenCV_Harris.cpp in Sources */,
+				CB409C63220A356E00C2423A /* Application.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
