@@ -16,7 +16,7 @@ class Harris : public CornerDetector {
 
 public:
     Harris() = delete;
-    Harris(cv::Mat src) : CornerDetector(src) {};
+    Harris(cv::Mat& src) : CornerDetector(src) {};
     ~Harris() {};
     
     void Run() override;

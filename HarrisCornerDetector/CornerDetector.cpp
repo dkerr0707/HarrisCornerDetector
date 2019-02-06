@@ -10,7 +10,7 @@
 
 #include <opencv2/imgproc.hpp>
 
-CornerDetector::CornerDetector(cv::Mat src) : m_src(src) {
+CornerDetector::CornerDetector(const cv::Mat& src) : m_src(src) {
     
     cv::cvtColor( m_src, m_srcGray, cv::COLOR_BGR2GRAY );
     

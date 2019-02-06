@@ -13,7 +13,7 @@
 class CornerDetector {
 
 public:
-    CornerDetector(cv::Mat src);
+    CornerDetector(const cv::Mat& src);
     virtual void Run() = 0;
     
 protected:

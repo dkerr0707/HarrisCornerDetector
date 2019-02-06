@@ -8,6 +8,7 @@
 
 #include "Application.hpp"
 #include "OpenCV_Harris.hpp"
+#include "Harris.hpp"
 
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -18,15 +19,11 @@ Application::Application(int argc, char** argv) {
     
     m_src = LoadImage(path);
     
-    const std::string windowName = "Input Image";
-    namedWindow(windowName, cv::WINDOW_AUTOSIZE );
-    imshow(windowName, m_src );
-    
 }
 
 void Application::Run() {
     
-    std::unique_ptr<CornerDetector> detector(new OpenCV_Harris(m_src));
+    std::unique_ptr<CornerDetector> detector(new Harris(m_src));//OpenCV_
     detector->Run();
     
     cv::waitKey(0);
@@ -57,3 +54,7 @@ cv::Mat Application::LoadImage(std::string path) {
     return image;
     
 }
+
+
+
+

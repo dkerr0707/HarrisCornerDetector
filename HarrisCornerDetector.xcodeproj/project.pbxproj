@@ -74,10 +74,10 @@
 				CB409C61220A356E00C2423A /* Application.cpp */,
 				CB409C5F220A328900C2423A /* CornerDetector.hpp */,
 				CB409C67220A560800C2423A /* CornerDetector.cpp */,
-				CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */,
 				CB409C5C220A2E5000C2423A /* OpenCV_Harris.hpp */,
-				CB409C64220A53C500C2423A /* Harris.cpp */,
+				CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */,
 				CB409C65220A53C500C2423A /* Harris.hpp */,
+				CB409C64220A53C500C2423A /* Harris.cpp */,
 			);
 			path = HarrisCornerDetector;
 			sourceTree = "<group>";
