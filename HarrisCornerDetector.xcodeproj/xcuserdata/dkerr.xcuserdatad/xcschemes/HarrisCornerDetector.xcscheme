@@ -64,7 +64,15 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "/Users/dkerr/dev/data/checkerboard.jpg"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/dkerr/dev/data/checkerboardCropped.jpg"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/dkerr/dev/data/checkerboardRotated.jpg"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
