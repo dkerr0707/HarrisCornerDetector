@@ -62,6 +62,7 @@ namespace Filters {
         
         // Return the scaled abs result
         // unsigned 8 bit 0 -> 255 range
+        // This if for consistency and easy debugging
         convertScaleAbs( convolvedImage, result );
         
     }

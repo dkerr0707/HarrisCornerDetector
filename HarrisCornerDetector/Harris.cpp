@@ -35,6 +35,17 @@ void Harris::Run() {
     cv::Size s = gradientX.size();
     cv::Size blocks(s.width / N, s.height / N);
     
+    // This is tricky to figure out. Were looking for the biggest change.
+    // So I feel that the max change would be half of each gradient block being
+    // high (255) and the other half being low (0). Because these value are being
+    // muliplied I squared the final value. N^2 is the block size. Divide that by
+    // two to get half blocks. Then square the result to get the max.
+    double maxR = pow(pow(N, 2) / 2, 2);
+    
+    // 𝑇ℎ = 𝑇 ∗ max𝑅(𝑥, 𝑦)
+    double T = 0.3;
+    double threshold = T * maxR;
+    
     for (int blockRow = 0; blockRow < blocks.height; blockRow++) {
         for (int blockColumn = 0; blockColumn < blocks.width; blockColumn++) {
             
@@ -49,9 +60,9 @@ void Harris::Run() {
             for (int r = rowStart; r < rowStart + N; r++) {
                 for (int c = columnStart; c < columnStart + N; c++) {
                     
-                    Sxx += pow(gradientX.at<uchar>(r, c), 2);
-                    Sxy += gradientX.at<uchar>(r, c) * gradientY.at<uchar>(r, c);
-                    Syy += pow(gradientY.at<uchar>(r, c), 2);
+                    Sxx += pow(gradientX.at<uchar>(r, c) / 255.0, 2);
+                    Sxy += (gradientX.at<uchar>(r, c) / 255.0) * (gradientY.at<uchar>(r, c) / 255.0);
+                    Syy += pow(gradientY.at<uchar>(r, c) / 255.0, 2);
                     
                 }
             }
@@ -61,8 +72,7 @@ void Harris::Run() {
             double R = ((Sxx * Syy) - (Sxy * Sxy)) - k * pow((Sxx + Syy), 2);
 
             // 6. Apply non-maximum suppression in a NxN window with thresholding to extract the final corner locations
-            // 𝑇ℎ = 𝑇 ∗ max𝑅(𝑥, 𝑦)
-            if (R > 0) {
+            if (R > threshold) {
                 cv::Point p = cv::Point( columnStart + N / 2, rowStart + N / 2 );
                 circle( GetSource(), p, 5, cv::Scalar( 0, 0, 255 ), 2, 8 );
                 
