@@ -1,5 +1,5 @@
 //
-//  Convolution.hpp
+//  Filters.hpp
 //  HarrisCornerDetector
 //
 //  Created by David Kerr on 2019-02-08.
@@ -11,8 +11,7 @@
 #include <opencv2/core/core.hpp>
 
 namespace Filters {
-    
-    
+
     static void Convolve(const cv::Mat& kernel, const cv::Mat& img, cv::Mat& result) {
         
         // We only accept odd row and odd col kernels
