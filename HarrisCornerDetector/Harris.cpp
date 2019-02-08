@@ -7,6 +7,7 @@
 //
 
 #include "Harris.hpp"
+#include "Convolution.hpp"
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -15,6 +16,29 @@
 #include <iostream>
 
 void Harris::Run() {
+    
+    cv::Mat kernel = (cv::Mat_<float>(3, 3) <<
+                      -1, 0, 1,
+                      -2, 0, 2,
+                      -1, 0, 1);
+   //cv::Mat kernel = (cv::Mat_<float>(3, 3) << -1, -2, -1, 0, 0, 0, 1, 2, 1);
+    /*cv::Mat kernel = (cv::Mat_<float>(5, 5) <<
+                      -1, -2, -2, -1, -1,
+                      -1, -2, -2, -1, -1,
+                      0, 0, 0, 0, 0,
+                      1, 2, 2, 1, 1,
+                      1, 2, 2, 1, 1);
+     */
+  /*  cv::Mat kernel = (cv::Mat_<float>(5, 5) <<
+                      0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.1, 0.2, 0.2, 0.2, 0.1,
+                      0.1, 0.2, 0.5, 0.2, 0.1,
+                      0.1, 0.2, 0.2, 0.2, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.1);
+    */
+    Convolution::Convolve(kernel, GetGray());
+    
+   // return;
     
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
     cv::Size kernelSize(5, 5);
