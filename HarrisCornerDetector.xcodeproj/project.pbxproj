@@ -12,7 +12,6 @@
 		CB409C63220A356E00C2423A /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C61220A356E00C2423A /* Application.cpp */; };
 		CB409C66220A53C500C2423A /* Harris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C64220A53C500C2423A /* Harris.cpp */; };
 		CB409C68220A560800C2423A /* CornerDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C67220A560800C2423A /* CornerDetector.cpp */; };
-		CB409C6B220DCDEB00C2423A /* Convolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C69220DCDEB00C2423A /* Convolution.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,7 +37,6 @@
 		CB409C64220A53C500C2423A /* Harris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Harris.cpp; sourceTree = "<group>"; };
 		CB409C65220A53C500C2423A /* Harris.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Harris.hpp; sourceTree = "<group>"; };
 		CB409C67220A560800C2423A /* CornerDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CornerDetector.cpp; sourceTree = "<group>"; };
-		CB409C69220DCDEB00C2423A /* Convolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convolution.cpp; sourceTree = "<group>"; };
 		CB409C6A220DCDEB00C2423A /* Convolution.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Convolution.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,7 +79,6 @@
 				CB409C5B220A2E5000C2423A /* OpenCV_Harris.cpp */,
 				CB409C65220A53C500C2423A /* Harris.hpp */,
 				CB409C64220A53C500C2423A /* Harris.cpp */,
-				CB409C69220DCDEB00C2423A /* Convolution.cpp */,
 				CB409C6A220DCDEB00C2423A /* Convolution.hpp */,
 			);
 			path = HarrisCornerDetector;
@@ -148,7 +145,6 @@
 				CB409C54220A073200C2423A /* main.cpp in Sources */,
 				CB409C68220A560800C2423A /* CornerDetector.cpp in Sources */,
 				CB409C5D220A2E5000C2423A /* OpenCV_Harris.cpp in Sources */,
-				CB409C6B220DCDEB00C2423A /* Convolution.cpp in Sources */,
 				CB409C63220A356E00C2423A /* Application.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
