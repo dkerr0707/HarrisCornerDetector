@@ -7,7 +7,7 @@
 //
 
 #include "Harris.hpp"
-#include "Convolution.hpp"
+#include "Filters.hpp"
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -17,61 +17,28 @@
 
 void Harris::Run() {
     
-    cv::Mat kernel = (cv::Mat_<float>(3, 3) <<
-                      -1, 0, 1,
-                      -2, 0, 2,
-                      -1, 0, 1);
-   //cv::Mat kernel = (cv::Mat_<float>(3, 3) << -1, -2, -1, 0, 0, 0, 1, 2, 1);
-    /*cv::Mat kernel = (cv::Mat_<float>(5, 5) <<
-                      -1, -2, -2, -1, -1,
-                      -1, -2, -2, -1, -1,
-                      0, 0, 0, 0, 0,
-                      1, 2, 2, 1, 1,
-                      1, 2, 2, 1, 1);
-     */
-  /*  cv::Mat kernel = (cv::Mat_<float>(5, 5) <<
-                      0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.1, 0.2, 0.2, 0.2, 0.1,
-                      0.1, 0.2, 0.5, 0.2, 0.1,
-                      0.1, 0.2, 0.2, 0.2, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.1);
-    */
-    Convolution::Convolve(kernel, GetGray());
-    
-   // return;
-    
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
-    cv::Size kernelSize(5, 5);
     cv::Mat blurred;
-    
-    cv::GaussianBlur( GetGray(), blurred, kernelSize, 0, 0 );
+    Filters::Gaussian(GetGray(), blurred);
     
     // 2. Compute the horizontal and vertical image gradients, 𝐼𝑥 and 𝐼𝑦, respectively.
-    int scale = 1;
-    int delta = 0;
-    int depth = CV_16S;
     cv::Mat gradientX;
-    cv::Mat gradientXAbs;
-    
-    cv::Sobel( GetGray(), gradientX, depth, 1, 0, 3, scale, delta, cv::BORDER_DEFAULT );
-    convertScaleAbs( gradientX, gradientXAbs );
+    Filters::Soble(GetGray(), gradientX, Filters::Type::SOBEL_X);
     
     cv::Mat gradientY;
-    cv::Mat gradientYAbs;
-    cv::Sobel( GetGray(), gradientY, depth, 0, 1, 3, scale, delta, cv::BORDER_DEFAULT );
-    convertScaleAbs( gradientY, gradientYAbs );
+    Filters::Soble(GetGray(), gradientY, Filters::Type::SOBEL_Y);
     
     // 3. Compute the sum of product derivatives in a NxN window, where ‘N’ is an odd value
     int N = 5;
     assert(N % 2 != 0); // N must be odd
     
-    cv::Size s = gradientXAbs.size();
+    cv::Size s = gradientX.size();
     cv::Size blocks(s.width / N, s.height / N);
     
-    // 4. Compute the structure tensor
     for (int blockRow = 0; blockRow < blocks.height; blockRow++) {
         for (int blockColumn = 0; blockColumn < blocks.width; blockColumn++) {
             
+            // 4. Compute the structure tensor
             double Sxx(0);
             double Sxy(0);
             double Syy(0);
@@ -82,14 +49,14 @@ void Harris::Run() {
             for (int r = rowStart; r < rowStart + N; r++) {
                 for (int c = columnStart; c < columnStart + N; c++) {
                     
-                    Sxx += pow(gradientXAbs.at<uchar>(r, c), 2);
-                    Sxy += gradientXAbs.at<uchar>(r, c) * gradientYAbs.at<uchar>(r, c);
-                    Syy += pow(gradientYAbs.at<uchar>(r, c), 2);
+                    Sxx += pow(gradientX.at<uchar>(r, c), 2);
+                    Sxy += gradientX.at<uchar>(r, c) * gradientY.at<uchar>(r, c);
+                    Syy += pow(gradientY.at<uchar>(r, c), 2);
                     
                 }
             }
             
-            // 5. Compute the response as
+            // 5. Compute the response
             double k = 0.04;
             double R = ((Sxx * Syy) - (Sxy * Sxy)) - k * pow((Sxx + Syy), 2);
 

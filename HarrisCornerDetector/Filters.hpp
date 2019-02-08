@@ -9,17 +9,19 @@
 #pragma once
 
 #include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 
-#include <iostream>
-
-namespace Convolution {
+namespace Filters {
     
-    static cv::Mat Convolve(const cv::Mat& kernel, const cv::Mat& img) {
+    
+    static void Convolve(const cv::Mat& kernel, const cv::Mat& img, cv::Mat& result) {
         
         // We only accept odd row and odd col kernels
         assert(kernel.rows % 2 != 0 &&
                kernel.cols % 2 != 0);
+        
+        // We only handle single channel images
+        assert(kernel.channels() == 1 &&
+               img.channels() == 1);
         
         // convert to floating point percision
         cv::Mat convertedKernel;
@@ -28,7 +30,7 @@ namespace Convolution {
         cv::Mat convertedImg;
         img.convertTo(convertedImg, CV_32F);
         
-        cv::Mat result = cv::Mat::zeros(cv::Size(convertedImg.cols, convertedImg.rows), CV_32F);;
+        cv::Mat convolvedImage = cv::Mat::zeros(cv::Size(convertedImg.cols, convertedImg.rows), CV_32F);;
         
         // We add a border to the output image with this technique
         // the border will the floor(kernel.dimension / 2)
@@ -49,7 +51,7 @@ namespace Convolution {
                         int imageRowIndex = r + currentRow;
                         int imageColIndex = c + currentCol;
                         
-                        result.at<float>(r, c) +=
+                        convolvedImage.at<float>(r, c) +=
                             convertedKernel.at<float>(kernelRowIndex, kernelColIndex) *
                             convertedImg.at<float>(imageRowIndex, imageColIndex);
                         
@@ -59,18 +61,52 @@ namespace Convolution {
             }
         }
         
+        // Return the scaled abs result
+        // unsigned 8 bit 0 -> 255 range
+        convertScaleAbs( convolvedImage, result );
         
-        
-        cv::Mat abs;
-        convertScaleAbs( result, abs );
-        const std::string windowName2 = "bling";
-        namedWindow(windowName2, cv::WINDOW_AUTOSIZE );
-        imshow(windowName2, abs );
-        
-    //    std::cout << abs << std::endl;
-        
-        
-        return result;
     }
+    
+    enum Type { SOBEL_X, SOBEL_Y };
+    
+    static void Soble(const cv::Mat& img, cv::Mat& result, Type type) {
+        
+        cv::Mat kernel;
+        
+        switch (type) {
+            case SOBEL_X:
+                kernel = (cv::Mat_<float>(3, 3) <<
+                          -1, 0, 1,
+                          -2, 0, 2,
+                          -1, 0, 1);
+                break;
+                
+            case SOBEL_Y:
+                kernel = (cv::Mat_<float>(3, 3) <<
+                          -1, -2, -1,
+                          0, 0, 0,
+                          1, 2, 1);
+                break;
+                
+            default:
+                throw std::runtime_error("Soble Type error.");
+        };
+        
+        
+        Convolve(kernel, img, result);
+    }
+    
+    static void Gaussian(const cv::Mat& img, cv::Mat& result) {
+        
+        cv::Mat kernel = (cv::Mat_<float>(5, 5) <<
+                          0.1, 0.1, 0.1, 0.1, 0.1,
+                          0.1, 0.2, 0.2, 0.2, 0.1,
+                          0.1, 0.2, 0.5, 0.2, 0.1,
+                          0.1, 0.2, 0.2, 0.2, 0.1,
+                          0.1, 0.1, 0.1, 0.1, 0.1);
+        
+        Convolve(kernel, img, result);
+    }
+
     
 };
