@@ -15,6 +15,7 @@
 		CB409C82220F306800C2423A /* Filters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C81220F306800C2423A /* Filters.cpp */; };
 		CB409C85220F3B7C00C2423A /* Convolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C84220F3B7C00C2423A /* Convolution.cpp */; };
 		CB409C88220F3C0B00C2423A /* CpuConvolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C86220F3C0B00C2423A /* CpuConvolution.cpp */; };
+		CB409C8B220F431300C2423A /* GpuConvolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB409C89220F431300C2423A /* GpuConvolution.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +47,8 @@
 		CB409C84220F3B7C00C2423A /* Convolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convolution.cpp; sourceTree = "<group>"; };
 		CB409C86220F3C0B00C2423A /* CpuConvolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CpuConvolution.cpp; sourceTree = "<group>"; };
 		CB409C87220F3C0B00C2423A /* CpuConvolution.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CpuConvolution.hpp; sourceTree = "<group>"; };
+		CB409C89220F431300C2423A /* GpuConvolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuConvolution.cpp; sourceTree = "<group>"; };
+		CB409C8A220F431300C2423A /* GpuConvolution.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GpuConvolution.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 				CB409C84220F3B7C00C2423A /* Convolution.cpp */,
 				CB409C86220F3C0B00C2423A /* CpuConvolution.cpp */,
 				CB409C87220F3C0B00C2423A /* CpuConvolution.hpp */,
+				CB409C89220F431300C2423A /* GpuConvolution.cpp */,
+				CB409C8A220F431300C2423A /* GpuConvolution.hpp */,
 			);
 			path = HarrisCornerDetector;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 			files = (
 				CB409C66220A53C500C2423A /* Harris.cpp in Sources */,
 				CB409C54220A073200C2423A /* main.cpp in Sources */,
+				CB409C8B220F431300C2423A /* GpuConvolution.cpp in Sources */,
 				CB409C68220A560800C2423A /* CornerDetector.cpp in Sources */,
 				CB409C88220F3C0B00C2423A /* CpuConvolution.cpp in Sources */,
 				CB409C85220F3B7C00C2423A /* Convolution.cpp in Sources */,

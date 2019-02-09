@@ -31,7 +31,13 @@ void Filters::Soble(cv::Mat& result, Type type) {
             throw std::runtime_error("Soble Type error.");
     };
     
-    convolution->Convolve(kernel, result);
+    cv::Mat convolutionResult;
+    convolution->Convolve(kernel, convolutionResult);
+    
+    // Return the scaled abs result
+    // unsigned 8 bit 0 -> 255 range
+    // This if for consistency and easy debugging
+    convertScaleAbs( convolutionResult, result );
 }
 
 void Filters::Gaussian(cv::Mat& result, unsigned int kernelDim, double sigma) {
@@ -49,5 +55,12 @@ void Filters::Gaussian(cv::Mat& result, unsigned int kernelDim, double sigma) {
         }
     }
     
-    convolution->Convolve(kernel, result);
+    cv::Mat convolutionResult;
+    convolution->Convolve(kernel, convolutionResult);
+    
+    // Return the scaled abs result
+    // unsigned 8 bit 0 -> 255 range
+    // This if for consistency and easy debugging
+    convertScaleAbs( convolutionResult, result );
+
 }

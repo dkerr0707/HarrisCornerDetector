@@ -8,7 +8,22 @@
 
 #include "Convolution.hpp"
 #include "CpuConvolution.hpp"
+#include "GpuConvolution.hpp"
+
+Convolution::Convolution(cv::Mat src) {
+
+    // We only handle single channel images
+    assert(src.channels() == 1);
+    
+    src.convertTo(m_img, CV_32F);
+    
+}
 
 std::unique_ptr<Convolution> Convolution::Create(cv::Mat src, bool gpu) {
-    return std::unique_ptr<CpuConvolution>(new CpuConvolution(src));
+    
+    if (gpu) {
+        return std::unique_ptr<Convolution>(new GpuConvolution(src));
+    }
+    
+    return std::unique_ptr<Convolution>(new CpuConvolution(src));
 }

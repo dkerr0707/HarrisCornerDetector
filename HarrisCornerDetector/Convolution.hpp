@@ -13,16 +13,18 @@
 class Convolution {
 public:
     
-    virtual void Convolve(const cv::Mat& kernel, cv::Mat& result) = 0;
+    // Factory to switch between GPU and CPU implementations
     static std::unique_ptr<Convolution> Create(cv::Mat src, bool gpu);
     
-    cv::Mat GetSrc() const { return m_src; }
+    virtual void Convolve(const cv::Mat& kernel, cv::Mat& result) = 0;
+    
+    cv::Mat GetImage() const { return m_img; }
 
 protected:
     
-    Convolution(cv::Mat src) : m_src(src) {};
+    Convolution(cv::Mat src);
     
 private:
     
-    cv::Mat m_src;
+    cv::Mat m_img;
 };

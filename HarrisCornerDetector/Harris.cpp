@@ -48,7 +48,7 @@ void Harris::Run() {
     double maxR = pow(pow(N, 2) / 2, 2);
     
     // 𝑇ℎ = 𝑇 ∗ max𝑅(𝑥, 𝑦)
-    double T = 0.3;
+    double T = 0.2;
     double threshold = T * maxR;
     
     for (int blockRow = 0; blockRow < blocks.height; blockRow++) {

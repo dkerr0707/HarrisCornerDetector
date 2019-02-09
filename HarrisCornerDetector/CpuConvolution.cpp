@@ -21,10 +21,9 @@ void CpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     cv::Mat convertedKernel;
     kernel.convertTo(convertedKernel, CV_32F);
     
-    cv::Mat convertedImg;
-    GetSrc().convertTo(convertedImg, CV_32F);
+    cv::Mat convertedImg = GetImage();
     
-    cv::Mat convolvedImage = cv::Mat::zeros(cv::Size(convertedImg.cols, convertedImg.rows), CV_32F);;
+    result = cv::Mat::zeros(cv::Size(convertedImg.cols, convertedImg.rows), CV_32F);;
     
     // We add a border to the output image with this technique
     // the border will the floor(kernel.dimension / 2)
@@ -45,19 +44,14 @@ void CpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
                     int imageRowIndex = r + currentRow;
                     int imageColIndex = c + currentCol;
                     
-                    convolvedImage.at<float>(r, c) +=
-                    convertedKernel.at<float>(kernelRowIndex, kernelColIndex) *
-                    convertedImg.at<float>(imageRowIndex, imageColIndex);
+                    result.at<float>(r, c) +=
+                        convertedKernel.at<float>(kernelRowIndex, kernelColIndex) *
+                        convertedImg.at<float>(imageRowIndex, imageColIndex);
                     
                 }
             }
             
         }
     }
-    
-    // Return the scaled abs result
-    // unsigned 8 bit 0 -> 255 range
-    // This if for consistency and easy debugging
-    convertScaleAbs( convolvedImage, result );
     
 }
