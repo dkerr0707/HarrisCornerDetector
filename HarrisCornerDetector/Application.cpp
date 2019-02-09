@@ -13,31 +13,41 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-Application::Application(int argc, char** argv) {
+Application::Application(int argc, char** argv) :
+    m_path(""),
+    m_gpu(false) {
     
-    std::string path = ValidateArgs(argc, argv);
+    ValidateArgs(argc, argv);
     
-    m_src = LoadImage(path);
+    m_src = LoadImage(m_path);
     
 }
 
 void Application::Run() {
     
     std::unique_ptr<CornerDetector> detector(new Harris(m_src));//OpenCV_
+    
+    if (m_gpu) {
+        detector->EnableGPU();
+    }
+    
     detector->Run();
     
     cv::waitKey(0);
     
 }
 
-std::string Application::ValidateArgs(int argc, char** argv) {
+void Application::ValidateArgs(int argc, char** argv) {
     
-    if( argc != 2)
+    if( argc < 2)
     {
-        throw std::runtime_error("Usage - HarrisCornerDetector IMAGE_PATH");
+        throw std::runtime_error("Usage - HarrisCornerDetector IMAGE_PATH CPU/GPU");
     }
     
-    return argv[1];
+    m_path = argv[1];
+    if (argc > 2 && std::string(argv[2]).compare("GPU") == 0) {
+        m_gpu = true;
+    }
     
 }
 

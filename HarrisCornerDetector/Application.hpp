@@ -17,9 +17,11 @@ public:
     void Run();
     
 private:
-    std::string ValidateArgs(int argc, char** argv);
+    void ValidateArgs(int argc, char** argv);
     cv::Mat LoadImage(std::string path);
     
+    std::string m_path;
+    bool m_gpu;
     cv::Mat m_src;
     
 };
