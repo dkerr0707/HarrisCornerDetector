@@ -12,7 +12,7 @@
 
 namespace Filters {
 
-    static void Convolve(const cv::Mat& kernel, const cv::Mat& img, cv::Mat& result) {
+    static void Convolution(const cv::Mat& kernel, const cv::Mat& img, cv::Mat& result) {
         
         // We only accept odd row and odd col kernels
         assert(kernel.rows % 2 != 0 &&
@@ -93,19 +93,26 @@ namespace Filters {
         };
         
         
-        Convolve(kernel, img, result);
+        Convolution(kernel, img, result);
     }
     
-    static void Gaussian(const cv::Mat& img, cv::Mat& result) {
+    static void Gaussian(const cv::Mat& img, cv::Mat& result, unsigned int kernelDim, double sigma) {
         
-        cv::Mat kernel = (cv::Mat_<float>(5, 5) <<
-                          0.1, 0.1, 0.1, 0.1, 0.1,
-                          0.1, 0.2, 0.2, 0.2, 0.1,
-                          0.1, 0.2, 0.5, 0.2, 0.1,
-                          0.1, 0.2, 0.2, 0.2, 0.1,
-                          0.1, 0.1, 0.1, 0.1, 0.1);
+        // kernel dimensions must odd
+        assert(kernelDim % 2 != 0);
         
-        Convolve(kernel, img, result);
+        cv::Mat kernel(kernelDim, kernelDim, CV_32FC1, cv::Scalar(0));
+        int indexOffset = kernelDim / 2;
+        
+        for (int y = -indexOffset; y <= indexOffset; y++ ) {
+            for (int x = -indexOffset; x <= indexOffset; x++) {
+                double gaussian = ((1 / (2 * M_PI * sigma * sigma)) * exp( - (pow(x, 2) + pow(y, 2)) / (2 * pow(sigma, 2))));
+                kernel.at<float>(y + indexOffset, x + indexOffset) = gaussian;
+            }
+        }
+        
+        
+        Convolution(kernel, img, result);
     }
 
     
