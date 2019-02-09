@@ -30,7 +30,6 @@ void Application::Run() {
     if (m_gpu) {
         detector->EnableGPU();
     }
-    
     detector->Run();
     
     cv::waitKey(0);

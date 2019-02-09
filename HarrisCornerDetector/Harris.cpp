@@ -17,18 +17,20 @@
 
 void Harris::Run() {
     
+    Filters filter(GetGray(), GpuEnabled());
+    
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
     cv::Mat blurred;
     unsigned int kernelDim = 5;
     double sigma = 1;
-    Filters::Gaussian(GetGray(), blurred, kernelDim, sigma);
+    filter.Gaussian(blurred, kernelDim, sigma);
     
     // 2. Compute the horizontal and vertical image gradients, 𝐼𝑥 and 𝐼𝑦, respectively.
     cv::Mat gradientX;
-    Filters::Soble(GetGray(), gradientX, Filters::Type::SOBEL_X);
+    filter.Soble(gradientX, Filters::Type::SOBEL_X);
     
     cv::Mat gradientY;
-    Filters::Soble(GetGray(), gradientY, Filters::Type::SOBEL_Y);
+    filter.Soble(gradientY, Filters::Type::SOBEL_Y);
     
     // 3. Compute the sum of product derivatives in a NxN window, where ‘N’ is an odd value
     int N = 5;
