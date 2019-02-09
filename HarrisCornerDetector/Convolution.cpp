@@ -15,7 +15,7 @@ Convolution::Convolution(cv::Mat src) {
     // We only handle single channel images
     assert(src.channels() == 1);
     
-    src.convertTo(m_img, CV_32F);
+    src.convertTo(m_src, CV_32F);
     
 }
 

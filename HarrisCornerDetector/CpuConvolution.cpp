@@ -21,7 +21,7 @@ void CpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     cv::Mat convertedKernel;
     kernel.convertTo(convertedKernel, CV_32F);
     
-    cv::Mat convertedImg = GetImage();
+    cv::Mat convertedImg = GetSource();
     
     result = cv::Mat::zeros(cv::Size(convertedImg.cols, convertedImg.rows), CV_32F);;
     

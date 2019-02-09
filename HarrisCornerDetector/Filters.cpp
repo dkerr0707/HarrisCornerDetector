@@ -8,6 +8,8 @@
 
 #include "Filters.hpp"
 
+#include <iostream>
+
 void Filters::Soble(cv::Mat& result, Type type) {
     
     cv::Mat kernel;
