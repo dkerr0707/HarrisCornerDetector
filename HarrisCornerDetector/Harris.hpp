@@ -21,4 +21,9 @@ public:
     
     void Run() override;
     
+private:
+    double Normalize(unsigned char c) {
+        return c / 255.0;
+    }
+    
 };

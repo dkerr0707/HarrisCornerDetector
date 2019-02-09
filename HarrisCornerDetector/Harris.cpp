@@ -19,7 +19,9 @@ void Harris::Run() {
     
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
     cv::Mat blurred;
-    Filters::Gaussian(GetGray(), blurred);
+    unsigned int kernelDim = 5;
+    double sigma = 1;
+    Filters::Gaussian(GetGray(), blurred, kernelDim, sigma);
     
     // 2. Compute the horizontal and vertical image gradients, 𝐼𝑥 and 𝐼𝑦, respectively.
     cv::Mat gradientX;
@@ -35,11 +37,12 @@ void Harris::Run() {
     cv::Size s = gradientX.size();
     cv::Size blocks(s.width / N, s.height / N);
     
-    // This is tricky to figure out. Were looking for the biggest change.
+    // This was tricky to figure out. Were looking for the biggest change.
     // So I feel that the max change would be half of each gradient block being
     // high (255) and the other half being low (0). Because these value are being
-    // muliplied I squared the final value. N^2 is the block size. Divide that by
-    // two to get half blocks. Then square the result to get the max.
+    // muliplied I squared the final value.
+    // N^2 is the block size. Divide that by two to get half blocks being high.
+    // Then square the result to get the max.
     double maxR = pow(pow(N, 2) / 2, 2);
     
     // 𝑇ℎ = 𝑇 ∗ max𝑅(𝑥, 𝑦)
@@ -60,9 +63,9 @@ void Harris::Run() {
             for (int r = rowStart; r < rowStart + N; r++) {
                 for (int c = columnStart; c < columnStart + N; c++) {
                     
-                    Sxx += pow(gradientX.at<uchar>(r, c) / 255.0, 2);
-                    Sxy += (gradientX.at<uchar>(r, c) / 255.0) * (gradientY.at<uchar>(r, c) / 255.0);
-                    Syy += pow(gradientY.at<uchar>(r, c) / 255.0, 2);
+                    Sxx += pow(Normalize(gradientX.at<uchar>(r, c)), 2);
+                    Sxy += Normalize(gradientX.at<uchar>(r, c)) * Normalize(gradientY.at<uchar>(r, c));
+                    Syy += pow(Normalize(gradientY.at<uchar>(r, c)), 2);
                     
                 }
             }
@@ -73,17 +76,19 @@ void Harris::Run() {
 
             // 6. Apply non-maximum suppression in a NxN window with thresholding to extract the final corner locations
             if (R > threshold) {
-                cv::Point p = cv::Point( columnStart + N / 2, rowStart + N / 2 );
-                circle( GetSource(), p, 5, cv::Scalar( 0, 0, 255 ), 2, 8 );
                 
+                int blockCenter = N / 2;
+                cv::Point p = cv::Point( columnStart + blockCenter, rowStart + blockCenter);
+                
+                circle( GetSource(), p, 5, cv::Scalar( 0, 0, 255 ), 2, 8 );
                 std::cout << p.x << " " << p.y << std::endl;
             }
             
         }
     }
     
-    const std::string windowName2 = "Corners";
-    namedWindow(windowName2, cv::WINDOW_AUTOSIZE );
-    imshow(windowName2, GetSource() );
+    const std::string windowName = "Corners";
+    namedWindow(windowName, cv::WINDOW_AUTOSIZE );
+    imshow(windowName, GetSource());
     
 }
