@@ -101,7 +101,7 @@ void Application::ValidateArgs(int argc, char** argv) {
     
     if( argc < 2)
     {
-        throw std::runtime_error("Usage - HarrisCornerDetector IMAGE_PATH CPU/GPU REPORT_PATH");
+        throw std::runtime_error("Usage - HarrisCornerDetector IMAGE_PATH CPU/GPU REPORT_PATH\n- CPU/GPU defaults to CPU when argument not provided.\n- REPORT_PATH defaults to standard out when not provided.");
     }
     
     m_path = argv[1];
