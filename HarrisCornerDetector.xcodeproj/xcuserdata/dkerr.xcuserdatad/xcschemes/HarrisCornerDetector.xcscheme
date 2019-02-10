@@ -64,6 +64,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "/Users/dkerr/dev/data/checkerboard.jpg GPU"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/dkerr/dev/data/checkerboard.jpg"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

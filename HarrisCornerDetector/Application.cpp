@@ -13,6 +13,9 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+#include <chrono>
+#include <iostream>
+
 Application::Application(int argc, char** argv) :
     m_path(""),
     m_gpu(false) {
@@ -21,16 +24,22 @@ Application::Application(int argc, char** argv) :
     
     m_src = LoadImage(m_path);
     
+    // Use this detector to test against OpenCVs implementation
+    //m_detector = std::unique_ptr<CornerDetector>(new OpenCV_Harris(m_src, m_gpu));
+        
+    m_detector = std::unique_ptr<CornerDetector>(new Harris(m_src, m_gpu));
+    
 }
 
 void Application::Run() {
     
-    std::unique_ptr<CornerDetector> detector(new Harris(m_src));//OpenCV_
+    auto t1 = std::chrono::high_resolution_clock::now();
     
-    if (m_gpu) {
-        detector->EnableGPU();
-    }
-    detector->Run();
+    m_detector->Run();
+    
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    std::cout << time.count() << " ms" << std::endl;
     
     cv::waitKey(0);
     

@@ -17,7 +17,7 @@ class Filters {
 public:
     
     Filters() = delete;
-    Filters(cv::Mat src, bool gpu) : convolution(Convolution::Create(src, gpu)) {};
+    Filters(cv::Mat src, bool gpu) : m_convolution(Convolution::Create(src, gpu)) {};
     
     enum Type { SOBEL_X, SOBEL_Y };
     
@@ -26,6 +26,6 @@ public:
     
 private:
     
-    std::unique_ptr<Convolution> convolution;
+    std::unique_ptr<Convolution> m_convolution;
     
 };

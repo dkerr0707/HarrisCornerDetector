@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "CornerDetector.hpp"
+
 #include <opencv2/core/core.hpp>
 
 class Application {
@@ -23,5 +25,7 @@ private:
     std::string m_path;
     bool m_gpu;
     cv::Mat m_src;
+    
+    std::unique_ptr<CornerDetector> m_detector;
     
 };

@@ -19,7 +19,7 @@ class OpenCV_Harris : public CornerDetector {
     
 public:
     OpenCV_Harris() = delete;
-    OpenCV_Harris(const cv::Mat& src) : CornerDetector(src) {};
+    OpenCV_Harris(const cv::Mat& src, bool gpu) : CornerDetector(src, gpu) {};
     ~OpenCV_Harris() {};
     
     void Run() override;

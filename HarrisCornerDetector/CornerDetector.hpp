@@ -13,7 +13,7 @@
 class CornerDetector {
 
 public:
-    CornerDetector(const cv::Mat& src);
+    CornerDetector(const cv::Mat& src, bool gpu);
     virtual ~CornerDetector() {};
     
     virtual void Run() = 0;

@@ -34,7 +34,7 @@ void Filters::Soble(cv::Mat& result, Type type) {
     };
     
     cv::Mat convolutionResult;
-    convolution->Convolve(kernel, convolutionResult);
+    m_convolution->Convolve(kernel, convolutionResult);
     
     // Return the scaled abs result
     // unsigned 8 bit 0 -> 255 range
@@ -58,7 +58,7 @@ void Filters::Gaussian(cv::Mat& result, unsigned int kernelDim, double sigma) {
     }
     
     cv::Mat convolutionResult;
-    convolution->Convolve(kernel, convolutionResult);
+    m_convolution->Convolve(kernel, convolutionResult);
     
     // Return the scaled abs result
     // unsigned 8 bit 0 -> 255 range
