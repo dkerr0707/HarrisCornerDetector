@@ -23,17 +23,6 @@ HarrisCornerDetector source.jpg GPU
 HarrisCornerDetector source.jpg CPU report.txt
 HarrisCornerDetector source.jpg GPU report.txt
 
-Notes:
-
-If the application is being run from Xcode you will need to change the Scheme Arguments to valid local files on you system.
-
-Eg.
-
-Scheme Arguments currently:
-/Users/dkerr/dev/data/checkerboard.jpg GPU /Users/dkerr/Desktop/report.txt
-
-Should change to your local file locations.
-
 
 
 
