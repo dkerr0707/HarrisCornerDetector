@@ -8,11 +8,6 @@
 
 #include "Harris.hpp"
 
-#include <opencv2/imgproc.hpp>
-
-#include <algorithm>
-#include <iostream>
-
 std::vector<cv::Point> Harris::GetCorners() {
     
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
