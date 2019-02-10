@@ -32,6 +32,8 @@ public:
     
 private:
     
+    std::unique_ptr<char> m_deviceName;
+    
     cl_context m_context;
     cl_command_queue m_command_queue;
     cl_kernel m_clKernel;

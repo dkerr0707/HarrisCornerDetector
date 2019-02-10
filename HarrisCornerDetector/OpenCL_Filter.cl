@@ -6,6 +6,9 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// This file is for reference. The kernel for this
+// application can be found in OpenCL_Filter.hpp.
+
 __kernel void Convolution(__global const float *src, __global const float *convolutionKernel, __global float *result, __global int *sizes) {
     
     // Get the index of the current element to be processed

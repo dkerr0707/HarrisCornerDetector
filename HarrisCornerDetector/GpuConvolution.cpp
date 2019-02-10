@@ -7,6 +7,7 @@
 //
 
 #include "GpuConvolution.hpp"
+#include "OpenCL_Filter.hpp"
 
 #include <iostream>
 
@@ -15,41 +16,32 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     // The OpenCL set up code was modified from the following source:
     // https://www.eriksmistad.no/getting-started-with-opencl-and-gpu-computing/
     
-    cl_platform_id platform_id = NULL;
-    cl_device_id device_id = NULL;
-    cl_uint ret_num_devices;
-    cl_uint ret_num_platforms;
-    cl_int ret = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
-    ret = clGetDeviceIDs( platform_id, CL_DEVICE_TYPE_DEFAULT, 1,
-                             &device_id, &ret_num_devices);
-        
-    m_context = clCreateContext( NULL, 1, &device_id, NULL, NULL, &ret);
-    m_command_queue = clCreateCommandQueue(m_context, device_id, 0, &ret);
+    cl_platform_id platformId = NULL;
+    cl_device_id deviceId = NULL;
+    cl_uint numDevices;
+    cl_uint numPlatforms;
+    cl_int ret = clGetPlatformIDs(1, &platformId, &numPlatforms);
+    ret = clGetDeviceIDs( platformId, CL_DEVICE_TYPE_DEFAULT, 1,
+                             &deviceId, &numDevices);
     
+    // print device name
+    size_t nameSize;
+    clGetDeviceInfo(deviceId, CL_DEVICE_NAME, 0, NULL, &nameSize);
+    m_deviceName = std::unique_ptr<char>(new char[nameSize]);
+    clGetDeviceInfo(deviceId, CL_DEVICE_NAME, nameSize, m_deviceName.get(), NULL);
+    std::cout << m_deviceName.get() << std::endl;
     
-    int MAX_SOURCE_SIZE (0x100000);
-    
-    // Load the kernel source code into the array source_str
-    FILE *fp;
-    char* source_str;
-    size_t source_size;
-    
-    fp = fopen("/Users/dkerr/dev/HarrisCornerDetector/HarrisCornerDetector/OpenCL_Filter.cl", "r");
-    if (!fp) {
-        throw std::runtime_error("Failed to load OpenCL kernel");
-    }
-    source_str = (char*)malloc(MAX_SOURCE_SIZE);
-    source_size = fread( source_str, 1, MAX_SOURCE_SIZE, fp);
-    fclose( fp );
+    m_context = clCreateContext( NULL, 1, &deviceId, NULL, NULL, &ret);
+    m_command_queue = clCreateCommandQueue(m_context, deviceId, 0, &ret);
     
     // Create a program from the kernel source
     cl_program program = clCreateProgramWithSource(m_context, 1,
-                                                   (const char **)&source_str,
-                                                   (const size_t *)&source_size,
+                                                   (const char **)&s_openClKernel,
+                                                   (const size_t *)&s_openClKernelSize,
                                                    &ret);
     
     // Build the program
-    ret = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
+    ret = clBuildProgram(program, 1, &deviceId, NULL, NULL, NULL);
     
     // Create the OpenCL kernel
     m_clKernel = clCreateKernel(program, "Convolution", &ret);

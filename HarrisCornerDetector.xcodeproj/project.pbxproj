@@ -53,6 +53,7 @@
 		CB409C8A220F431300C2423A /* GpuConvolution.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GpuConvolution.hpp; sourceTree = "<group>"; };
 		CB409C8D220F5BCF00C2423A /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		CB409C91220F67A700C2423A /* OpenCL_Filter.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = OpenCL_Filter.cl; sourceTree = "<group>"; };
+		CB409C9322107D4E00C2423A /* OpenCL_Filter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OpenCL_Filter.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +106,7 @@
 				CB409C89220F431300C2423A /* GpuConvolution.cpp */,
 				CB409C8A220F431300C2423A /* GpuConvolution.hpp */,
 				CB409C91220F67A700C2423A /* OpenCL_Filter.cl */,
+				CB409C9322107D4E00C2423A /* OpenCL_Filter.hpp */,
 			);
 			path = HarrisCornerDetector;
 			sourceTree = "<group>";
