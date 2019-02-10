@@ -7,9 +7,9 @@ OS X El Capitan
 Dependencies:
 
 1) OpenCV 3.3
-OpenCV depenencies located in /usr/local/include and /usr/local/lib.
+OpenCV dependencies located in /usr/local/include and /usr/local/lib.
 
-2) OpenCL 1.0
+2) OpenCL 1.1
 
 Usage - HarrisCornerDetector IMAGE_PATH CPU/GPU REPORT_PATH
 - CPU/GPU defaults to CPU when argument not provided.
