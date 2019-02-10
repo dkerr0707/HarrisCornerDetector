@@ -87,10 +87,8 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     result = cv::Mat::zeros(sourceSize, CV_32F);
     size_t resultBufferSize = sourceBufferSize * sizeof(float);
     
-    size_t kernelBufferSize = kernel.size().width * kernel.size().height * sizeof(float);
-    
     float *convolutionKernel = reinterpret_cast<float*>(kernel.data);
-
+    size_t kernelBufferSize = kernel.size().width * kernel.size().height * sizeof(float);
     
     // Set up the memory objects
     cl_int ret = NULL;
@@ -116,10 +114,11 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     ret = clSetKernelArg(m_clKernel, 3, sizeof(cl_mem), (void *)&sizesMemoryObject);
     
     // Execute the OpenCL kernel on the source image
-    size_t global_item_size = sourceBufferSize; // Process the entire image
-    size_t local_item_size = 1; // Divide work items into groups of 64
+    size_t globalItemSize = sourceBufferSize; // Process the entire image
+    size_t localItemSize = SetLocalItemSize(globalItemSize);
+    
     ret = clEnqueueNDRangeKernel(m_command_queue, m_clKernel, 1, NULL,
-                                 &global_item_size, &local_item_size, 0, NULL, NULL);
+                                 &globalItemSize, &localItemSize, 0, NULL, NULL);
     
     
     float *convolutionResult = reinterpret_cast<float*>(result.data);
@@ -127,7 +126,28 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
                               resultBufferSize, convolutionResult, 0, NULL, NULL);
     
     ret = clReleaseMemObject(kerelMemoryObject);
-    
     ret = clReleaseMemObject(sizesMemoryObject);
     
 }
+
+size_t GpuConvolution::SetLocalItemSize(size_t globalItemSize) {
+    
+    //Local item size must be divisible by the global item size
+    
+    if (globalItemSize % 64 == 0) {
+        return 64;
+    }
+    else if (globalItemSize % 32 == 0) {
+        return 32;
+    }
+    else if (globalItemSize % 16 == 0) {
+        return 16;
+    }
+    else if (globalItemSize % 8 == 0) {
+        return 8;
+    }
+    
+    return 1;
+    
+}
+

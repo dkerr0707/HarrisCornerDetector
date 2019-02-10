@@ -42,4 +42,6 @@ private:
     
     float *m_sourceImage;
     
+    size_t SetLocalItemSize(size_t globalItemSize);
+    
 };
