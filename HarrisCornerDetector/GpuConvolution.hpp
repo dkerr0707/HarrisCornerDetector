@@ -16,7 +16,7 @@
 
 #include "Convolution.hpp"
 
-// The OpenGL set up code can be found here:
+// The OpenCL set up code was modified from the following source:
 // https://www.eriksmistad.no/getting-started-with-opencl-and-gpu-computing/
 
 class GpuConvolution : public Convolution {
@@ -36,7 +36,6 @@ private:
     cl_command_queue m_command_queue;
     cl_kernel m_clKernel;
     cl_mem m_sourceMemoryObject;
-    cl_mem m_sourceDimMemoryObject;
     
     float *m_sourceImage;
     

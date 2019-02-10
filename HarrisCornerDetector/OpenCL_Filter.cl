@@ -1,4 +1,12 @@
-__kernel void vector_add(__global const float *src, __global const float *convolutionKernel, __global float *result, __global int *sizes) {
+//
+//  OpenCL_Filter.cl
+//  HarrisCornerDetector
+//
+//  Created by David Kerr on 2019-02-09.
+//  Copyright © 2019 David Kerr. All rights reserved.
+//
+
+__kernel void Convolution(__global const float *src, __global const float *convolutionKernel, __global float *result, __global int *sizes) {
     
     // Get the index of the current element to be processed
     int i = get_global_id(0);

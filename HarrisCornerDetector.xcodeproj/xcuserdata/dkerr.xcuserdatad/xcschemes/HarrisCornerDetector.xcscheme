@@ -67,7 +67,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/dkerr/dev/data/lena.jpg"
+            argument = "/Users/dkerr/dev/data/lena.jpg GPU"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -75,11 +75,11 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/dkerr/dev/data/checkerboardLarge.jpg"
+            argument = "/Users/dkerr/dev/data/checkerboardLarge.jpg GPU"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/dkerr/dev/data/checkerboardRotated.jpg"
+            argument = "/Users/dkerr/dev/data/checkerboardRotated.jpg  GPU"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

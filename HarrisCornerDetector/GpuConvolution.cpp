@@ -12,7 +12,7 @@
 
 GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     
-    // The OpenGL set up code can be found here:
+    // The OpenCL set up code was modified from the following source:
     // https://www.eriksmistad.no/getting-started-with-opencl-and-gpu-computing/
     
     cl_platform_id platform_id = NULL;
@@ -52,21 +52,17 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     ret = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
     
     // Create the OpenCL kernel
-    m_clKernel = clCreateKernel(program, "vector_add", &ret);
+    m_clKernel = clCreateKernel(program, "Convolution", &ret);
 
     ret = clReleaseProgram(program);
     
-    
-    
-    
-    
     // load the source image to the gpu
-    
     m_sourceImage = reinterpret_cast<float*>(GetSource().data);
-    
     size_t sourceSize = GetSource().size().width * GetSource().size().height * sizeof(float);
+    
     m_sourceMemoryObject = clCreateBuffer(m_context, CL_MEM_READ_ONLY,
                                       sourceSize, NULL, &ret);
+    
     ret = clEnqueueWriteBuffer(m_command_queue, m_sourceMemoryObject, CL_TRUE, 0,
                                sourceSize, m_sourceImage, 0, NULL, NULL);
     
@@ -77,7 +73,6 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
 GpuConvolution::~GpuConvolution() {
     
     cl_int ret = clReleaseMemObject(m_sourceMemoryObject);
-    ret = clReleaseMemObject(m_sourceDimMemoryObject);
     
     ret = clFlush(m_command_queue);
     ret = clFinish(m_command_queue);
@@ -90,18 +85,17 @@ GpuConvolution::~GpuConvolution() {
 void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     
     cv::Size sourceSize = GetSource().size();
-    const int LIST_SIZE = sourceSize.width * sourceSize.height;//1024;
+    const int sourceBufferSize = sourceSize.width * sourceSize.height;
     
     result = cv::Mat::zeros(sourceSize, CV_32F);
     size_t resultBufferSize = result.size().width * result.size().height * sizeof(float);
     
     size_t kernelBufferSize = kernel.size().width * kernel.size().height * sizeof(float);
     
-    // Create the two input vectors
     float *convolutionKernel = reinterpret_cast<float*>(kernel.data);
 
     
-    // Create memory buffers on the device for each vector
+    // Set up the memory objects
     cl_int ret = NULL;
     cl_mem kerelMemoryObject = clCreateBuffer(m_context, CL_MEM_READ_ONLY,
                                       kernelBufferSize, NULL, &ret);
@@ -109,10 +103,11 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     cl_mem resultMemoryObject = clCreateBuffer(m_context, CL_MEM_WRITE_ONLY,
                                       resultBufferSize, NULL, &ret);
     
-    // Copy the lists A and B to their respective memory buffers
+    // Copy the kernel data into the buffer
     ret = clEnqueueWriteBuffer(m_command_queue, kerelMemoryObject, CL_TRUE, 0,
                                kernelBufferSize, convolutionKernel, 0, NULL, NULL);
     
+    // Set up the size data to be passed to the kernel
     size_t aSize = sizeof(int) * 4;
     int sizes[4] = {sourceSize.width, sourceSize.height,
                     kernel.size().width, kernel.size().height};
@@ -127,9 +122,9 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     ret = clSetKernelArg(m_clKernel, 2, sizeof(cl_mem), (void *)&resultMemoryObject);
     ret = clSetKernelArg(m_clKernel, 3, sizeof(cl_mem), (void *)&sizesMemoryObject);
     
-    // Execute the OpenCL kernel on the list
-    size_t global_item_size = LIST_SIZE; // Process the entire lists
-    size_t local_item_size = 1;//64; // Divide work items into groups of 64
+    // Execute the OpenCL kernel on the source image
+    size_t global_item_size = sourceBufferSize; // Process the entire image
+    size_t local_item_size = 1; // Divide work items into groups of 64
     ret = clEnqueueNDRangeKernel(m_command_queue, m_clKernel, 1, NULL,
                                  &global_item_size, &local_item_size, 0, NULL, NULL);
     
