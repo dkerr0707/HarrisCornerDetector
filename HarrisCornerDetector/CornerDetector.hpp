@@ -13,22 +13,17 @@
 class CornerDetector {
 
 public:
-    CornerDetector(const cv::Mat& src, bool gpu);
+    CornerDetector(const cv::Mat& src);
     virtual ~CornerDetector() {};
     
     virtual void Run() = 0;
-    void EnableGPU() { m_gpu = true; }
-    void DisableGPU() { m_gpu = false; }
     
 protected:
     cv::Mat& GetSource() { return m_src; };
     cv::Mat& GetGray() { return m_srcGray; };
-    
-    bool GpuEnabled() const { return m_gpu; }
 
 private:
     cv::Mat m_src;
     cv::Mat m_srcGray;
     
-    bool m_gpu;
 };

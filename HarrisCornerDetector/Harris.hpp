@@ -18,8 +18,8 @@ class Harris : public CornerDetector {
 public:
     Harris() = delete;
     Harris(cv::Mat& src, bool gpu) :
-        CornerDetector(src, gpu),
-        m_filter(GetGray(), GpuEnabled()) {};
+        CornerDetector(src),
+        m_filter(GetGray(), gpu) {};
     
     ~Harris() {};
     

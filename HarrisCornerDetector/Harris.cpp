@@ -16,8 +16,6 @@
 
 void Harris::Run() {
     
-//    Filters filter(GetGray(), GpuEnabled());
-    
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
     cv::Mat blurred;
     unsigned int kernelDim = 5;

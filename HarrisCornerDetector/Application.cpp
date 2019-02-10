@@ -25,7 +25,7 @@ Application::Application(int argc, char** argv) :
     m_src = LoadImage(m_path);
     
     // Use this detector to test against OpenCVs implementation
-    //m_detector = std::unique_ptr<CornerDetector>(new OpenCV_Harris(m_src, m_gpu));
+    //m_detector = std::unique_ptr<CornerDetector>(new OpenCV_Harris(m_src));
         
     m_detector = std::unique_ptr<CornerDetector>(new Harris(m_src, m_gpu));
     
