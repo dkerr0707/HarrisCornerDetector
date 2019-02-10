@@ -38,6 +38,7 @@ private:
     cl_command_queue m_command_queue;
     cl_kernel m_clKernel;
     cl_mem m_sourceMemoryObject;
+    cl_mem m_resultMemoryObject;
     
     float *m_sourceImage;
     
