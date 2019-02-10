@@ -1,0 +1,6 @@
+
+Example commands:
+
+HarrisCornerDetector /dev/ExampleResults/source.jpg GPU /dev/ExampleResults/reportGPU.txt
+
+HarrisCornerDetector /dev/ExampleResults/source.jpg CPU /dev/ExampleResults/reportCPU.txt 
