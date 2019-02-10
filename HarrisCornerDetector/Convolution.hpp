@@ -18,7 +18,7 @@ public:
     
     virtual void Convolve(const cv::Mat& kernel, cv::Mat& result) = 0;
     
-    cv::Mat GetSource() const { return m_src; }
+    cv::Mat& GetSource() { return m_src; }
 
 protected:
     

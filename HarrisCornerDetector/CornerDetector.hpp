@@ -21,8 +21,8 @@ public:
     void DisableGPU() { m_gpu = false; }
     
 protected:
-    cv::Mat GetSource() const { return m_src; };
-    cv::Mat GetGray() const { return m_srcGray; };
+    cv::Mat& GetSource() { return m_src; };
+    cv::Mat& GetGray() { return m_srcGray; };
     
     bool GpuEnabled() const { return m_gpu; }
 
