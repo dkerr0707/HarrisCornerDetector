@@ -11,9 +11,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
-void OpenCV_Harris::Run() {
+std::vector<cv::Point> OpenCV_Harris::GetCorners() {
     
     cornerHarris_demo( 0, 0 );
+    
+    return m_corners;
     
 }
 
@@ -38,7 +40,9 @@ void OpenCV_Harris::cornerHarris_demo( int, void* )
         {
             if( (int) dst_norm.at<float>(i,j) > m_thresh )
             {
-                circle( dst_norm_scaled, cv::Point(j,i), 5,  cv::Scalar(0), 2, 8, 0 );
+                cv::Point p = cv::Point(j,i);
+                circle( dst_norm_scaled, p, 5,  cv::Scalar(0), 2, 8, 0 );
+                m_corners.push_back(p);
             }
         }
     }

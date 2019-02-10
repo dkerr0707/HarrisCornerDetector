@@ -26,6 +26,9 @@ private:
     bool m_gpu;
     cv::Mat m_src;
     
+    std::string m_reportPath;
+    
     std::unique_ptr<CornerDetector> m_detector;
+    void CreateReport(const std::vector<cv::Point>& corners, const std::chrono::duration<long long, std::__1::ratio<1, 1000> >& time);
     
 };

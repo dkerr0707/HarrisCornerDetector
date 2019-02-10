@@ -16,7 +16,7 @@ public:
     CornerDetector(const cv::Mat& src);
     virtual ~CornerDetector() {};
     
-    virtual void Run() = 0;
+    virtual std::vector<cv::Point> GetCorners() = 0;
     
 protected:
     cv::Mat& GetSource() { return m_src; };

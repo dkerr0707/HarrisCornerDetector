@@ -22,12 +22,13 @@ public:
     OpenCV_Harris(const cv::Mat& src) : CornerDetector(src) {};
     ~OpenCV_Harris() {};
     
-    void Run() override;
+    std::vector<cv::Point> GetCorners() override;
     
 private:
     cv::Mat m_src;
     cv::Mat m_src_gray;
     const int m_thresh = 200;
+    std::vector<cv::Point> m_corners;
     
     void cornerHarris_demo( int, void* );
     

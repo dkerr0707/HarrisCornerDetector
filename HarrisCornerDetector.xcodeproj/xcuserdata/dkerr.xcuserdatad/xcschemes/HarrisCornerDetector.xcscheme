@@ -63,6 +63,10 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
+            argument = "/Users/dkerr/dev/data/checkerboard.jpg GPU /Users/dkerr/Desktop/report.txt "
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "/Users/dkerr/dev/data/checkerboard.jpg GPU"
             isEnabled = "YES">
          </CommandLineArgument>

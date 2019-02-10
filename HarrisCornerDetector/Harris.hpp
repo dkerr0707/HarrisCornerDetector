@@ -23,7 +23,7 @@ public:
     
     ~Harris() {};
     
-    void Run() override;
+    std::vector<cv::Point> GetCorners() override;
     
 private:
     

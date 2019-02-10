@@ -8,13 +8,12 @@
 
 #include "Harris.hpp"
 
-#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
 #include <algorithm>
 #include <iostream>
 
-void Harris::Run() {
+std::vector<cv::Point> Harris::GetCorners() {
     
     // 1. Pre-filter the image 𝐼 with a Gaussian kernel 𝐺𝜎 with some sigma
     cv::Mat blurred;
@@ -48,6 +47,8 @@ void Harris::Run() {
     double T = 0.2;
     double threshold = T * maxR;
     
+    std::vector<cv::Point> corners;
+    
     for (int blockRow = 0; blockRow < blocks.height; blockRow++) {
         for (int blockColumn = 0; blockColumn < blocks.width; blockColumn++) {
             
@@ -78,16 +79,13 @@ void Harris::Run() {
                 
                 int blockCenter = N / 2;
                 cv::Point p = cv::Point( columnStart + blockCenter, rowStart + blockCenter);
-                
-                circle( GetSource(), p, 5, cv::Scalar( 0, 0, 255 ), 2, 8 );
-                std::cout << p.x << " " << p.y << std::endl;
+                corners.push_back(p);
             }
             
         }
     }
     
-    const std::string windowName = "Corners";
-    namedWindow(windowName, cv::WINDOW_AUTOSIZE );
-    imshow(windowName, GetSource());
+    
+    return corners;
     
 }
