@@ -7,6 +7,38 @@ __kernel void vector_add(__global const float *src, __global const float *convol
     int kernelWidth = sizes[2];
     int kernelHeight = sizes[3];
     
-    // Do the operation
-    result[i] = kernelWidth;//src[i] + convolutionKernel[i];
+    int row = i / sourceWidth;
+    int col = i % sourceWidth;
+    int rowOffset = kernelHeight / 2;
+    int colOffset = kernelWidth / 2;
+    
+    result[i] = 0;
+    
+    // We are in the border so exit and leave the result as zero
+    if (col < colOffset || col >= sourceWidth - colOffset ||
+        row < rowOffset || row >= sourceHeight - rowOffset) {
+        return;
+    }
+    
+    // We can process this pixel
+    for (int currentRow = -rowOffset; currentRow <= rowOffset; currentRow++) {
+        for (int currentCol = -colOffset; currentCol <= colOffset; currentCol++) {
+            
+            // kernel space index
+            int kernelRowIndex = currentRow + rowOffset;
+            int kernelColIndex = currentCol + colOffset;
+            
+            // image space index
+            int imageRowIndex = row + currentRow;
+            int imageColIndex = col + currentCol;
+            
+            result[i] +=
+                convolutionKernel[kernelWidth * kernelRowIndex + kernelColIndex] *
+                src[sourceWidth * imageRowIndex + imageColIndex];
+            
+            
+        }
+    }
+
+    
 }

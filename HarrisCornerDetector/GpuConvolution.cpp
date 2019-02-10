@@ -89,9 +89,10 @@ GpuConvolution::~GpuConvolution() {
 
 void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     
-    const int LIST_SIZE = kernel.size().width * kernel.size().height;//1024;
+    cv::Size sourceSize = GetSource().size();
+    const int LIST_SIZE = sourceSize.width * sourceSize.height;//1024;
     
-    result = cv::Mat::zeros(GetSource().size(), CV_32F);
+    result = cv::Mat::zeros(sourceSize, CV_32F);
     size_t resultBufferSize = result.size().width * result.size().height * sizeof(float);
     
     size_t kernelBufferSize = kernel.size().width * kernel.size().height * sizeof(float);
@@ -113,7 +114,7 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
                                kernelBufferSize, convolutionKernel, 0, NULL, NULL);
     
     size_t aSize = sizeof(int) * 4;
-    int sizes[4] = {GetSource().size().width, GetSource().size().height,
+    int sizes[4] = {sourceSize.width, sourceSize.height,
                     kernel.size().width, kernel.size().height};
     
     cl_mem sizesMemoryObject = clCreateBuffer(m_context, CL_MEM_WRITE_ONLY,
@@ -136,15 +137,6 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     float *convolutionResult = reinterpret_cast<float*>(result.data);
     ret = clEnqueueReadBuffer(m_command_queue, resultMemoryObject, CL_TRUE, 0,
                               resultBufferSize, convolutionResult, 0, NULL, NULL);
-    
-    
-    
-    // Display the result to the screen
-    for(int i = 0; i < LIST_SIZE; i++)
-        std::cout << m_sourceImage[i] << " + " << convolutionKernel[i] << " = " << convolutionResult[i] << std::endl;
-    
-    
-    
     
     ret = clReleaseMemObject(kerelMemoryObject);
     ret = clReleaseMemObject(resultMemoryObject);
