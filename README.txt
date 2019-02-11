@@ -23,6 +23,15 @@ HarrisCornerDetector source.jpg GPU
 HarrisCornerDetector source.jpg CPU report.txt
 HarrisCornerDetector source.jpg GPU report.txt
 
+The ExampleResults directory shows the expected results with the given source image:
+
+- exampleCommands.txt shows the commands used to generate the results in the folder.
+- reportCPU.txt shows the example CPU report.
+- reportGPU.txt shows the example GPU report.
+- source.jpg shows the source image used for testing.
+- result.jpg shows the output result when the program is executed. Red circles are draw on the found corners.
+
+
 
 
 
