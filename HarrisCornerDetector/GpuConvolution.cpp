@@ -21,8 +21,11 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     cl_uint numDevices;
     cl_uint numPlatforms;
     cl_int ret = clGetPlatformIDs(1, &platformId, &numPlatforms);
+    ThrowOnError(ret);
+    
     ret = clGetDeviceIDs( platformId, CL_DEVICE_TYPE_DEFAULT, 1,
                              &deviceId, &numDevices);
+    ThrowOnError(ret);
     
     // print device name
     size_t nameSize;
@@ -42,11 +45,13 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     
     // Build the program
     ret = clBuildProgram(program, 1, &deviceId, NULL, NULL, NULL);
+    ThrowOnError(ret);
     
     // Create the OpenCL kernel
     m_clKernel = clCreateKernel(program, "Convolution", &ret);
 
     ret = clReleaseProgram(program);
+    ThrowOnError(ret);
     
     // load the source image to the gpu
     m_sourceImage = reinterpret_cast<float*>(GetSource().data);
@@ -59,14 +64,21 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     
     ret = clEnqueueWriteBuffer(m_commandQueue, m_sourceMemoryObject, CL_TRUE, 0,
                                sourceSize, m_sourceImage, 0, NULL, NULL);
+    ThrowOnError(ret);
     
     ret = clSetKernelArg(m_clKernel, 0, sizeof(cl_mem), (void *)&m_sourceMemoryObject);
+    ThrowOnError(ret);
+    
     ret = clSetKernelArg(m_clKernel, 2, sizeof(cl_mem), (void *)&m_resultMemoryObject);
+    ThrowOnError(ret);
     
 };
 
 GpuConvolution::~GpuConvolution() {
     
+    // We cant use the throw on error function here.
+    // We should be logging an error here if something
+    // happens.
     cl_int
     ret = clReleaseMemObject(m_sourceMemoryObject);
     ret = clReleaseMemObject(m_resultMemoryObject);
@@ -98,6 +110,7 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     // Copy the kernel data into the buffer
     ret = clEnqueueWriteBuffer(m_commandQueue, kerelMemoryObject, CL_TRUE, 0,
                                kernelBufferSize, convolutionKernel, 0, NULL, NULL);
+    ThrowOnError(ret);
     
     // Set up the size data to be passed to the kernel
     size_t aSize = sizeof(int) * 4;
@@ -108,10 +121,14 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
                                       aSize, NULL, &ret);
     ret = clEnqueueWriteBuffer(m_commandQueue, sizesMemoryObject, CL_TRUE, 0,
                                aSize, sizes, 0, NULL, NULL);
+    ThrowOnError(ret);
     
     // Set the arguments of the kernel
     ret = clSetKernelArg(m_clKernel, 1, sizeof(cl_mem), (void *)&kerelMemoryObject);
+    ThrowOnError(ret);
+    
     ret = clSetKernelArg(m_clKernel, 3, sizeof(cl_mem), (void *)&sizesMemoryObject);
+    ThrowOnError(ret);
     
     // Execute the OpenCL kernel on the source image
     size_t globalItemSize = sourceBufferSize; // Process the entire image
@@ -119,14 +136,21 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     
     ret = clEnqueueNDRangeKernel(m_commandQueue, m_clKernel, 1, NULL,
                                  &globalItemSize, &localItemSize, 0, NULL, NULL);
+    ThrowOnError(ret);
     
     
     float *convolutionResult = reinterpret_cast<float*>(result.data);
     ret = clEnqueueReadBuffer(m_commandQueue, m_resultMemoryObject, CL_TRUE, 0,
                               resultBufferSize, convolutionResult, 0, NULL, NULL);
+    ThrowOnError(ret);
     
+    // These will leak if we throw earlier.
+    // They should be wrapped in an RAII container
+    // to be exception safe.
     ret = clReleaseMemObject(kerelMemoryObject);
+    ThrowOnError(ret);
     ret = clReleaseMemObject(sizesMemoryObject);
+    ThrowOnError(ret);
     
 }
 

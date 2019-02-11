@@ -54,5 +54,6 @@ private:
     float *m_sourceImage;
     
     size_t SetLocalItemSize(size_t globalItemSize);
+    void ThrowOnError(cl_int ret) { if (ret != 0) throw std::runtime_error("OpenCL error : " + std::to_string(ret));};
     
 };
