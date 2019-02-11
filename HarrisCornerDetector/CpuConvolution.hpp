@@ -6,6 +6,8 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// CPU convolution implementation.
+
 #pragma once
 
 #include "Convolution.hpp"

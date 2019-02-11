@@ -6,6 +6,9 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// Harris Corner Detector. This class
+// implements the corner detector.
+
 #pragma once
 
 #include "CornerDetector.hpp"

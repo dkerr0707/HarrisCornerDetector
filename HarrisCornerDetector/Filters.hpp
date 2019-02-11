@@ -6,6 +6,12 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// Filters class holds the filter related data and
+// algorithms. Soble filter uses the standard 3x3
+// filters. Gaussian creates a filter based on the
+// kernel dimensions and sigma. All convoltion kernels
+// are square.
+
 #pragma once
 
 #include "Convolution.hpp"

@@ -6,6 +6,20 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// The OpenCL set up code was modified from the following source:
+// https://www.eriksmistad.no/getting-started-with-opencl-and-gpu-computing/
+
+// GPU convolution using OpenGL. The code gets
+// the first GPU device availble on the sytem
+// and prints the device name to standard output.
+//
+// The source image and result buffer are loaded to
+// the GPU at intialization. When the convolve function
+// is called we only need to upload the convolution kernel
+// and the dimension object to the GPU. This makes it
+// efficient to do multiple convolutions on the same
+// source image.
+
 #pragma once
 
 #ifdef __APPLE__
@@ -15,9 +29,6 @@
 #endif
 
 #include "Convolution.hpp"
-
-// The OpenCL set up code was modified from the following source:
-// https://www.eriksmistad.no/getting-started-with-opencl-and-gpu-computing/
 
 class GpuConvolution : public Convolution {
     
@@ -35,7 +46,7 @@ private:
     std::unique_ptr<char> m_deviceName;
     
     cl_context m_context;
-    cl_command_queue m_command_queue;
+    cl_command_queue m_commandQueue;
     cl_kernel m_clKernel;
     cl_mem m_sourceMemoryObject;
     cl_mem m_resultMemoryObject;

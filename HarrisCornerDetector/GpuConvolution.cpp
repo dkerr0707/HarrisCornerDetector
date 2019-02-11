@@ -32,7 +32,7 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     std::cout << m_deviceName.get() << std::endl;
     
     m_context = clCreateContext( NULL, 1, &deviceId, NULL, NULL, &ret);
-    m_command_queue = clCreateCommandQueue(m_context, deviceId, 0, &ret);
+    m_commandQueue = clCreateCommandQueue(m_context, deviceId, 0, &ret);
     
     // Create a program from the kernel source
     cl_program program = clCreateProgramWithSource(m_context, 1,
@@ -57,7 +57,7 @@ GpuConvolution::GpuConvolution(cv::Mat src) : Convolution(src) {
     m_resultMemoryObject = clCreateBuffer(m_context, CL_MEM_WRITE_ONLY,
                                     sourceSize, NULL, &ret);
     
-    ret = clEnqueueWriteBuffer(m_command_queue, m_sourceMemoryObject, CL_TRUE, 0,
+    ret = clEnqueueWriteBuffer(m_commandQueue, m_sourceMemoryObject, CL_TRUE, 0,
                                sourceSize, m_sourceImage, 0, NULL, NULL);
     
     ret = clSetKernelArg(m_clKernel, 0, sizeof(cl_mem), (void *)&m_sourceMemoryObject);
@@ -71,10 +71,10 @@ GpuConvolution::~GpuConvolution() {
     ret = clReleaseMemObject(m_sourceMemoryObject);
     ret = clReleaseMemObject(m_resultMemoryObject);
     
-    ret = clFlush(m_command_queue);
-    ret = clFinish(m_command_queue);
+    ret = clFlush(m_commandQueue);
+    ret = clFinish(m_commandQueue);
     ret = clReleaseKernel(m_clKernel);
-    ret = clReleaseCommandQueue(m_command_queue);
+    ret = clReleaseCommandQueue(m_commandQueue);
     ret = clReleaseContext(m_context);
     
 }
@@ -96,7 +96,7 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
                                       kernelBufferSize, NULL, &ret);
     
     // Copy the kernel data into the buffer
-    ret = clEnqueueWriteBuffer(m_command_queue, kerelMemoryObject, CL_TRUE, 0,
+    ret = clEnqueueWriteBuffer(m_commandQueue, kerelMemoryObject, CL_TRUE, 0,
                                kernelBufferSize, convolutionKernel, 0, NULL, NULL);
     
     // Set up the size data to be passed to the kernel
@@ -106,7 +106,7 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     
     cl_mem sizesMemoryObject = clCreateBuffer(m_context, CL_MEM_WRITE_ONLY,
                                       aSize, NULL, &ret);
-    ret = clEnqueueWriteBuffer(m_command_queue, sizesMemoryObject, CL_TRUE, 0,
+    ret = clEnqueueWriteBuffer(m_commandQueue, sizesMemoryObject, CL_TRUE, 0,
                                aSize, sizes, 0, NULL, NULL);
     
     // Set the arguments of the kernel
@@ -117,12 +117,12 @@ void GpuConvolution::Convolve(const cv::Mat& kernel, cv::Mat& result) {
     size_t globalItemSize = sourceBufferSize; // Process the entire image
     size_t localItemSize = SetLocalItemSize(globalItemSize);
     
-    ret = clEnqueueNDRangeKernel(m_command_queue, m_clKernel, 1, NULL,
+    ret = clEnqueueNDRangeKernel(m_commandQueue, m_clKernel, 1, NULL,
                                  &globalItemSize, &localItemSize, 0, NULL, NULL);
     
     
     float *convolutionResult = reinterpret_cast<float*>(result.data);
-    ret = clEnqueueReadBuffer(m_command_queue, m_resultMemoryObject, CL_TRUE, 0,
+    ret = clEnqueueReadBuffer(m_commandQueue, m_resultMemoryObject, CL_TRUE, 0,
                               resultBufferSize, convolutionResult, 0, NULL, NULL);
     
     ret = clReleaseMemObject(kerelMemoryObject);

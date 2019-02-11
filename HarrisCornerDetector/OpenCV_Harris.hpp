@@ -9,6 +9,9 @@
 // This class is based on the example code that can be found here :
 // https://docs.opencv.org/3.4/d4/d7d/tutorial_harris_detector.html
 
+// This was the first detector I got working. I use
+// this class to verify against my implementation.
+
 #pragma once
 
 #include "CornerDetector.hpp"

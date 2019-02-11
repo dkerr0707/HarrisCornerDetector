@@ -6,6 +6,15 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// To simplify the loading requirments for the GPU
+// implementation I decided to copy the kernel to
+// a header file and load it from here. The other
+// option is to load the .cl file into the application
+// directly. Because I could not guarantee a full
+// reference path on other systems I felt this
+// is the least error prone way to deal with the
+// OpenCL kenel for this application.
+
 #pragma once
 
 static size_t s_openClKernelSize = 1024*1024;

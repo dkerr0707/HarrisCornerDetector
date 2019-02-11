@@ -6,6 +6,10 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// This is the application layer. It holds the corner detector,
+// validates input arguments, loads the source image and
+// writes the report to file or standard out.
+
 #pragma once
 
 #include "CornerDetector.hpp"

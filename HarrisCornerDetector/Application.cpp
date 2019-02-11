@@ -47,7 +47,7 @@ void Application::Run() {
     
 }
 
-// We can write to a file or std out wit this function.
+// We can write to a file or std out with this function.
 void Application::CreateReport(const std::vector<cv::Point>& corners,
                                const std::chrono::duration<long long, std::__1::ratio<1, 1000> >& time) {
     

@@ -6,6 +6,11 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// This is the main file. It creates the application and runs it.
+// I use exceptions for error handling so the application is
+// wrapped in a try catch block to ensure all exceptions are
+// handled.
+
 #include "Application.hpp"
 
 #include <iostream>

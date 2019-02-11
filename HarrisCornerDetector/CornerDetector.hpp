@@ -6,6 +6,11 @@
 //  Copyright © 2019 David Kerr. All rights reserved.
 //
 
+// This is the corner detector interface class.
+// It holds the source image and converts it to
+// gray scale for processing. Derived classes
+// implement the GetCorners() function.
+
 #pragma once
 
 #include <opencv2/core/core.hpp>
